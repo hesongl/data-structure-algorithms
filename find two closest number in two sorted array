@@ -1,0 +1,45 @@
+int GetMinArraySubtraction(int A[], int lenA, int B[], int lenB) {  
+    if (lenA == 0 && lenB == 0)  
+        return 0;  
+    if (A[0] > B[lenB - 1])  
+        return A[0] - B[lenB - 1];  
+    if (B[0] > A[lenA - 1])  
+        return B[0] - A[lenA - 1];  
+  
+    int min = abs(A[0] - B[0]);//所求最小  
+  
+    int i = 0, j = 0;  
+    if (A[i] > B[j])  
+        j++;  
+    else i++;  
+  
+    int flagA = 0;//记录数组上一个下标  
+    int flagB = 0;  
+    while (i < lenA && j < lenB) {  
+        if (A[i] > B[j]) {  
+            int temp = abs(A[flagA] - B[j]);  
+            min = temp < min ? temp : min;  
+  
+            flagB = j;  
+            j++;  
+        }  
+        else {  
+            int temp = abs(A[i] - B[flagB]);  
+            min = temp < min ? temp : min;  
+  
+            flagA = i;  
+            i++;  
+        }  
+    }  
+  
+    while (i < lenA) {//B遍历完了  
+        int temp = abs(A[i++] - B[flagB]);  
+        min = temp < min ? temp : min;  
+    }  
+    while (j < lenB) {//A遍历完了  
+        int temp = abs(B[j++] - A[flagA]);  
+        min = temp < min ? temp : min;  
+    }  
+  
+    return min;  
+}  
